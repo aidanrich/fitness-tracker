@@ -15,21 +15,37 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // change userdb?
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout_db", { useNewUrlParser: true,
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true,
 useFindAndModify: false,
 useUnifiedTopology: true,
 });
 
-// make routes folder
-app.post("/submit", ({ body }, res) => {
+// make routes folder?
+
+//need html routes
+
+//api routes
+app.post("/api/workouts", ({ body }, res) => {
   Workout.create(body)
-    .then(dbUser => {
-      res.json(dbUser);
+    .then(workout => {
+      res.json(workout);
     })
     .catch(err => {
       res.json(err);
     });
 });
+
+app.get("/api/workouts", (req, res) => {
+  Workout.find().sort({ date: 1 }, (err, found) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(found);
+    }
+  });
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
