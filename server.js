@@ -44,15 +44,21 @@ app.get('/stats', (req, res) => {
 app.get("/api/workouts/range", (req, res) => {
   console.log("hello mojo")
 
-  Workout.find({})
-  .sort({ _id: -1 })
-  .limit(7).then((found) => {
-      console.log("!!!!!!!!!" + found)
+  Workout.aggregate([
+    {
+      $addFields: {
+        totalDuration: { $sum: "$exercises.duration" },
+      }
+    }
+  ])
+    .sort({ _id: -1 })
+    .limit(7)
+    .then((found) => {
       res.json(found);
     })
     .catch(err => {
-    console.log("err" + err)
-  });
+      console.log("err" + err)
+    });
 });
 
 
@@ -70,21 +76,25 @@ app.post("/api/workouts", ({ body }, res) => {
 });
 
 app.get("/api/workouts", (req, res) => {
-  Workout.find({}, (err, found) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.json(found);
+  Workout.aggregate([
+    {
+      $addFields: {
+        totalDuration: { $sum: "$exercises.duration" },
+      }
     }
-  });
+  ])
+    .then((found) => {
+      res.json(found);
+    })
+    .catch(err => {
+      console.log("err" + err)
+    });
 });
 
 
 
 // Add exercises to the most recent workout plan.
 app.put("/api/workouts/:id", (req, res) => {
-  console.log(req.params.id)
-  console.log(req.body);
   Workout.findByIdAndUpdate(req.params.id, { $push: { exercises: req.body } }, (err, found) => {
     if (err) {
       console.log(err);
