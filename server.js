@@ -23,7 +23,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
 
 
 
-//need html routes?
+//need html routes
 
 app.get('/exercise', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/exercise.html'))
@@ -37,10 +37,8 @@ app.get('/stats', (req, res) => {
 //api routes
 
 
-
-
 // * View the combined weight of multiple exercises from the past seven workouts on the `stats` page.
-
+// * View the total duration of each workout from the past seven workouts on the `stats` page.
 app.get("/api/workouts/range", (req, res) => {
   console.log("hello mojo")
 
@@ -62,7 +60,7 @@ app.get("/api/workouts/range", (req, res) => {
 });
 
 
-// * View the total duration of each workout from the past seven workouts on the `stats` page.
+
 
 // * Add new exercises to a new workout plan.
 app.post("/api/workouts", ({ body }, res) => {
