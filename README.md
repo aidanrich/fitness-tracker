@@ -11,6 +11,8 @@
 - [License](#license)
 ## Installation
 - You will need to use 'npm i' in a command line if you clone the app down from the repo. This will give you access to the packages needed to run this app.
+- Otherwise you can use the live app on Heroku: https://vast-everglades-43611.herokuapp.com
+- Github repo is here: https://github.com/aidanrich/fitness-tracker
 ## Usage
 - On the main page you can choose to update an existing workout or create a bran new workout routine. The stats from the most recent workout will automatically display above.
 - If you click on Dashboard you will see a graph showing your routines from the past several days.
